@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+"""
+Multi-AI API Proxy Server for CLAT Mock Test Generator
+Proxies requests to Google Gemini and OpenAI APIs
+"""
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
@@ -6,11 +12,13 @@ import os
 app = Flask(__name__)
 CORS(app)
 
+# API Keys - Hardcoded for simplicity
 GEMINI_API_KEY = 'AIzaSyCWSDV-DUmNeQJPw4chBUBDW3t8avPRhJc'
 GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent'
 
-OPENAI_API_KEY = OPENAI_API_KEY = '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'  # Now hardcoded!
-
+# OpenAI API Key - Hardcoded
+OPENAI_API_KEY = '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'
+OPENAI_BASE_URL = 'https://api.openai.com/v1/chat/completions'
 
 @app.route('/generate', methods=['POST', 'OPTIONS'])
 def generate():
@@ -44,6 +52,8 @@ def generate():
         
     except requests.exceptions.Timeout:
         return jsonify({'error': 'Request timeout'}), 504
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': f'Network error: {str(e)}'}), 503
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -73,6 +83,10 @@ def openai_proxy():
         
         return jsonify(openai_response.json()), openai_response.status_code
         
+    except requests.exceptions.Timeout:
+        return jsonify({'error': 'Request timeout'}), 504
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': f'Network error: {str(e)}'}), 503
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -81,9 +95,14 @@ def health():
     return jsonify({
         'status': 'healthy', 
         'service': 'Multi-AI Proxy',
+        'endpoints': {
+            '/generate': 'Gemini API proxy',
+            '/openai': 'OpenAI API proxy',
+            '/health': 'Health check'
+        },
         'openai_configured': bool(OPENAI_API_KEY)
     })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=False)
