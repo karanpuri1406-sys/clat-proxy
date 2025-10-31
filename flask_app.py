@@ -17,7 +17,7 @@ GEMINI_API_KEY = 'AIzaSyCWSDV-DUmNeQJPw4chBUBDW3t8avPRhJc'
 GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent'
 
 # OpenAI API Key - Hardcoded
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 OPENAI_BASE_URL = 'https://api.openai.com/v1/chat/completions'
 
 @app.route('/generate', methods=['POST', 'OPTIONS'])
