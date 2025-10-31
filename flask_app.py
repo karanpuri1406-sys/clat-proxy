@@ -9,8 +9,7 @@ CORS(app)
 GEMINI_API_KEY = 'AIzaSyCWSDV-DUmNeQJPw4chBUBDW3t8avPRhJc'
 GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent'
 
-OPENAI_API_KEY = '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'
-OPENAI_BASE_URL = 'https://api.openai.com/v1/chat/completions'
+OPENAI_API_KEY = 'OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
 
 @app.route('/generate', methods=['POST', 'OPTIONS'])
 def generate():
