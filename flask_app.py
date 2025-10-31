@@ -9,7 +9,8 @@ CORS(app)
 GEMINI_API_KEY = 'AIzaSyCWSDV-DUmNeQJPw4chBUBDW3t8avPRhJc'
 GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent'
 
-OPENAI_API_KEY = 'OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+OPENAI_API_KEY = OPENAI_API_KEY = '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'  # Now hardcoded!
+
 
 @app.route('/generate', methods=['POST', 'OPTIONS'])
 def generate():
